@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import axios from 'axios';
 
 const ProductForm = (props) => {
+    const{allProducts, setAllProducts} = props;
 
     // HAVE TO SET ALL FIELDS TO STATE
     const [title, setTitle] = useState("");
@@ -19,6 +20,7 @@ const ProductForm = (props) => {
             .then((res) => {
                 console.log(res);
                 console.log(res.data);
+                    setAllProducts([...allProducts, res.data])
                     setTitle("");
                     setPrice("");
                     setDescription("");
