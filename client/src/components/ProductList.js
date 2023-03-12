@@ -6,6 +6,7 @@ const ProductList = (props) => {
 
     const {allProducts, setAllProducts} = props;
 
+
     useEffect(() => {
         axios.get("http://localhost:8000/api/products")
             .then((res) => {
@@ -16,6 +17,17 @@ const ProductList = (props) => {
             .catch((err) => console.log(err))
     }, [])
 
+    // DONT FORGET, USE BACK TICKS WHEN USING STRING INTERPERLATION 
+    const deleteFilter = (idFromBelow) => {
+        axios.delete(`http://localhost:8000/api/products/${idFromBelow}`)
+            .then((res) => {
+                console.log(res.data);
+                const newList = allProducts.filter((product, index) => product._id !== idFromBelow)
+                setAllProducts(newList);
+            })
+            .catch((err) => console.log(err))
+    }
+
     return(
         <div>
             <h2>
@@ -25,6 +37,8 @@ const ProductList = (props) => {
                 allProducts.map((product, index) => (
                     <div key={index}>
                         <Link to={`/product/${product._id}`}>{product.title}</Link>
+                        <Link to={`/product/edit/${product._id}`}>Edit</Link>
+                        <button onClick={()=>deleteFilter(product._id)}>Delete</button>
                     </div>
                 ))
         }
